@@ -1,0 +1,2 @@
+insert into T_CLYVO_SWAGGER_PESSOA(nome,cpf,data_nascimento,email_pessoal) values('Pessoa 1','220.453.840-04','2002-05-05','pessoal1@gmail.com'); 
+insert into T_CLYVO_SWAGGER_USER(fk_pessoa,rm,senha,permissao,data_criacao) values(1,'RM1','$2a$10$0BhZzH8hG2FEW6qhs9UpV.XlaRPf.ODWDDevV67y3TzXeDzUUaRTK','USER','2026-05-05'); /*SENHA: 1234*/
