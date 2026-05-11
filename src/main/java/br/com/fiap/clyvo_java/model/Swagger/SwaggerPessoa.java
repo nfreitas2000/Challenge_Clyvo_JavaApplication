@@ -1,4 +1,4 @@
-package br.com.fiap.clyvo_java.model.Swagger;
+package br.com.fiap.clyvo_java.model.swagger;
 
 import java.time.LocalDate;
 

@@ -2,7 +2,8 @@ package br.com.fiap.clyvo_java.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import br.com.fiap.clyvo_java.model.Swagger.SwaggerUserModel;
+
+import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
 
 public interface SwaggerUserRepository extends JpaRepository<SwaggerUserModel, Long> {
 	

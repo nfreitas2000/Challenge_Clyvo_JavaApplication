@@ -1,4 +1,4 @@
-package br.com.fiap.clyvo_java.control;
+package br.com.fiap.clyvo_java.control.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,16 +22,13 @@ public class AutenticacaoController {
 	
 	
 	@PostMapping(value = "/login")
-	public String logar(@RequestParam String usuario, 
-			            @RequestParam String senha, 
+	public String logar(@RequestParam(value = "user", defaultValue = "RM1") String usuario, 
+			            @RequestParam(value = "password", defaultValue = "1234") String senha, 
 			            @RequestParam(value = "duracao", defaultValue = "10") Integer duracao) {
 		
 		try {
-			
 			var autenticacao = new UsernamePasswordAuthenticationToken(usuario,senha);
-			
 			manager.authenticate(autenticacao);
-			
 			return jwtUtil.gerarToken(usuario, duracao);
 			
 		} catch (Exception e) {

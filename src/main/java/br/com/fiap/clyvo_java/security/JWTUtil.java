@@ -13,10 +13,8 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class JWTUtil {
 	
-	//chave pública
 	private final SecretKey CHAVE = Jwts.SIG.HS256.key().build();
 	
-	//geração de token
 	public String gerarToken(String username, Integer duracao) {
 		
 		Date data_atual = new Date();
@@ -31,7 +29,6 @@ public class JWTUtil {
 		return builder.compact();
 	}
 	
-	//extrair um usuário de um token
 	public String extrairUsername(String token) {
 		
 		try {
@@ -44,7 +41,6 @@ public class JWTUtil {
 		
 	}
 	
-	//validar token (com base na chave pública)
 	public boolean validarToken(String token) {
 		try {
 			JwtParser parser = Jwts.parser().verifyWith(CHAVE).build();

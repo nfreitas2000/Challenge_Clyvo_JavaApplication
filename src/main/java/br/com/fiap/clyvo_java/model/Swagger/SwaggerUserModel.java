@@ -1,10 +1,8 @@
-package br.com.fiap.clyvo_java.model.Swagger;
+package br.com.fiap.clyvo_java.model.swagger;
 
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

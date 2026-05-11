@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.fiap.clyvo_java.model.Swagger.SwaggerUserModel;
+import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
 import br.com.fiap.clyvo_java.repository.SwaggerUserRepository;
 
 @Configuration
@@ -20,20 +20,14 @@ public class SwaggerUserConfig {
 	
 	@Bean
 	public UserDetailsService gerarUsuario() throws Exception {
-	
 		return rm -> {
-			
-			SwaggerUserModel usuario = repU.findByRm(rm)
-								  .orElseThrow(
-										  () -> new UsernameNotFoundException("Usuário não foi localizado"));
-			
+			SwaggerUserModel usuario = repU.findByRm(rm).orElseThrow(() -> new UsernameNotFoundException("Usuário não foi localizado"));
 			return User.builder()
 					.username(usuario.getRm())
 					.password(usuario.getSenha())
 					.roles(usuario.getPermissao())
 					.build();
 		};
-		
 	}
 	
 	@Bean
