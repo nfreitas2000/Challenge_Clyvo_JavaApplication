@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
-import br.com.fiap.clyvo_java.repository.SwaggerUserRepository;
+import br.com.fiap.clyvo_java.repository.swagger.SwaggerUserRepository;
 
 @RestController
 @RequestMapping("/usuarios")

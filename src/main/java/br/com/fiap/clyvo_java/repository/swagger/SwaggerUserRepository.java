@@ -1,4 +1,4 @@
-package br.com.fiap.clyvo_java.repository;
+package br.com.fiap.clyvo_java.repository.swagger;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

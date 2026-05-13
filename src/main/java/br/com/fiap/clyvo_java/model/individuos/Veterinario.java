@@ -21,7 +21,6 @@ import jakarta.validation.constraints.Size;
 public class Veterinario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotEmpty(message = "O ID do veterinário é um campo obrigatório")
 	private Long id_veterinario;
 	
 	@Column(name = "nm_veterinario")
@@ -34,7 +33,6 @@ public class Veterinario {
 	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do veterinário", example = "11111111111")
 	private String cpf;
 	
-	@NotEmpty(message = "A data de nascimento é um campo obrigatório")
 	@Past(message = "A data de nascimento do veterinário deve ser uma data passada")
 	@Schema(description = "Este atributo representa a data de nascimento do veterinário", example = "2000-01-01")
 	private LocalDate dt_nascimento;
@@ -58,10 +56,10 @@ public class Veterinario {
 	
 	public Veterinario() {}
 
-	public Veterinario(@NotEmpty(message = "O ID do veterinário é um campo obrigatório") Long id_veterinario,
+	public Veterinario(Long id_veterinario,
 			@NotEmpty(message = "O nome do veterinário é um campo obrigatório") @Size(min = 1, max = 50, message = "O nome do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String nm_veterinario,
 			@CPF @Size(max = 11, message = "O CPF do veterinário deve possuir no máximo 11 caracteres") String cpf,
-			@NotEmpty(message = "A data de nascimento é um campo obrigatório") @Past(message = "A data de nascimento do veterinário deve ser uma data passada") LocalDate dt_nascimento,
+			@Past(message = "A data de nascimento do veterinário deve ser uma data passada") LocalDate dt_nascimento,
 			@Size(min = 1, max = 50, message = "O e-mail de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String email,
 			@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório") @Size(min = 1, max = 20, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 20 caracteres") String num_celular,
 			@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório") @Size(min = 1, max = 50, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String especialidade) {

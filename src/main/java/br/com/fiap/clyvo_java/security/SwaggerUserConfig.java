@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
-import br.com.fiap.clyvo_java.repository.SwaggerUserRepository;
+import br.com.fiap.clyvo_java.repository.swagger.SwaggerUserRepository;
 
 @Configuration
 public class SwaggerUserConfig {
