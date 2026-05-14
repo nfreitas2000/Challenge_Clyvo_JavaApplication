@@ -1,9 +1,15 @@
 package br.com.fiap.clyvo_java.repository.individuos;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
+import br.com.fiap.clyvo_java.model.pet.Animal;
 
 public interface ResponsavelRepository extends JpaRepository<Responsavel, Long>  {
 
+	@Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_RESPONSAVEL WHERE UPPER(nm_responsavel) LIKE UPPER(CONCAT('%', :substring, '%'))")
+    List<Responsavel> retornarResponsaveisPorNome(String substring);
 }

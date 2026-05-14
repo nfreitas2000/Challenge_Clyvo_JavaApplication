@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
 import br.com.fiap.clyvo_java.repository.swagger.SwaggerUserRepository;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -27,11 +28,17 @@ public class UsuarioSwaggerController {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	@Operation(description = "Este endpoint retorna todos os usuários com acesso a API",
+			summary = "Visualizar usuários",
+			tags = "Autenticação CRUD")
 	@GetMapping("/todos")
 	public List<SwaggerUserModel> listarTodos(){
 		return repU.findAll();
 	}
 	
+	@Operation(description = "Este endpoint usuários com acesso a API pelo ID",
+			summary = "Visualizar usuários por ID",
+			tags = "Autenticação CRUD")
 	@GetMapping("/{id}")
 	public SwaggerUserModel buscarPorId(@PathVariable Long id) {
 		SwaggerUserModel usuario = repU.findById(id).orElseThrow(
@@ -40,6 +47,9 @@ public class UsuarioSwaggerController {
 		return usuario;
 	}
 	
+	@Operation(description = "Este endpoint permite a criação de novos usuários com acesso a API",
+			summary = "Criar usuários",
+			tags = "Autenticação CRUD")
 	@PostMapping("/novo")
 	public SwaggerUserModel inserirUsuario(@RequestBody SwaggerUserModel usuario) {
 		
@@ -48,6 +58,10 @@ public class UsuarioSwaggerController {
 		return usuario;	
 		
 	}
+	
+	@Operation(description = "Este endpoint exclui usuários com acesso a API",
+			summary = "Remover usuários",
+			tags = "Autenticação CRUD")
 	@DeleteMapping("/remover/{id}")
 	public SwaggerUserModel removerUsuario(@PathVariable Long id) {
 		SwaggerUserModel usuario = repU.findById(id).orElseThrow(

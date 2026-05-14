@@ -23,7 +23,6 @@ import jakarta.validation.constraints.Size;
 public class Responsavel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotEmpty(message = "O ID do responsavel é um campo obrigatório")
 	private Long id_responsavel;
 	
 	@Column(name = "nm_responsavel")
@@ -33,11 +32,10 @@ public class Responsavel {
 	private String nm_responsavel;
 	
 	@CPF
-	@Size(max = 11, message = "O CPF do responsavel deve possuir no máximo 11 caracteres")
-	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do responsavel", example = "11111111111")
+	@Size(max = 14, message = "O CPF do responsavel deve possuir no máximo 14 caracteres")
+	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do responsavel", example = "123.456.789-01")
 	private String cpf;
-	
-	@NotEmpty(message = "A data de nascimento é um campo obrigatório")
+
 	@Past(message = "A data de nascimento do responsavel deve ser uma data passada")
 	@Schema(description = "Este atributo representa a data de nascimento do responsavel", example = "1995-01-01")
 	private LocalDate dt_nascimento;
@@ -65,6 +63,14 @@ public class Responsavel {
 		this.dt_nascimento = dt_nascimento;
 		this.email = email;
 		this.num_celular = num_celular;
+	}
+	
+	public void transferirResponsavel(Responsavel responsavel) {
+		this.nm_responsavel = responsavel.getNm_responsavel();
+		this.cpf = responsavel.getCpf();
+		this.dt_nascimento = responsavel.getDt_nascimento();
+		this.email = responsavel.getEmail();
+		this.num_celular = responsavel.getNum_celular();
 	}
 	
 	public Long getId_responsavel() {

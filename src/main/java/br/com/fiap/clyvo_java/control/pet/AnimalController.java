@@ -49,7 +49,7 @@ public class AnimalController {
     }
 
     @Operation(description = "Realiza a busca de animais por ID, utilizando caching",
-			summary = "Retornar de animais por ID",
+			summary = "Retornar dados de animais por ID",
 			tags = "Retorno de Informações de Animais")
     @GetMapping("/{id}")
     public Optional<Animal> buscarPorId(@PathVariable Long id) {
@@ -66,7 +66,7 @@ public class AnimalController {
 
     @Operation(description = "Realiza a busca de animais por nome, utilizando caching",
 			summary = "Retornar animais páginados",
-			tags = "Retorno de Informações de Animais por Paginação")
+			tags = "Retorno de Informações por Paginação")
     @GetMapping("/paginado")
     public Page<AnimalDTO> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     	PageRequest pr = PageRequest.of(page,size);
@@ -76,10 +76,10 @@ public class AnimalController {
     /*POST, PUT AND DELETE*/
     
 	@Operation(description = "Este endpoint tem como objetivo inserir novos animais",
-			summary = "Inserir nova música",
+			summary = "Inserir novo animal",
 			tags = "Animal CRUD")
 	@PostMapping(value = "/inserir")
-	public Animal inserirMusica(@RequestBody @Valid Animal animal) {
+	public Animal inserirAnimal(@RequestBody @Valid Animal animal) {
 		animalRepository.save(animal);
 		animalCachingService.removerCache();
 		return animal;
@@ -89,7 +89,7 @@ public class AnimalController {
 			summary = "Remover animais",
 			tags = "Animal CRUD")
 	@DeleteMapping(value = "/{id}")
-	public Animal removerMusica(@PathVariable Long id) {
+	public Animal removerAnimal(@PathVariable Long id) {
 		Optional<Animal> op = animalRepository.findById(id);
 
 		if (op.isPresent()) {
@@ -105,7 +105,7 @@ public class AnimalController {
 			summary = "Atualizar animais",
 			tags = "Animal CRUD")
 	@PutMapping(value = "/{id}")
-	public Animal atualizarMusica(@PathVariable Long id, @RequestBody @Valid Animal animal) {
+	public Animal atualizarAnimal(@PathVariable Long id, @RequestBody @Valid Animal animal) {
 		Optional<Animal> op = animalCachingService.findById(id);
 
 		if (op.isPresent()) {
