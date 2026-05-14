@@ -22,7 +22,7 @@ public class AutenticacaoController {
 	
 	
 	@PostMapping(value = "/login")
-	public String logar(@RequestParam(value = "user", defaultValue = "RM1") String usuario, 
+	public String logar(@RequestParam(value = "username", defaultValue = "RM1") String usuario, 
 			            @RequestParam(value = "password", defaultValue = "1234") String senha, 
 			            @RequestParam(value = "duracao", defaultValue = "10") Integer duracao) {
 		

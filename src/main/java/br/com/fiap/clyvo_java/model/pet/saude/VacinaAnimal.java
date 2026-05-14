@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "T_CLYVO_VACINA_ANIMAL")
@@ -23,16 +24,21 @@ public class VacinaAnimal {
     private Long id_vacina_animal;
 
     @Lob
+    @Schema(description = "Representa passos para a aplicação e se é necessário um retorno para mais doses")
     private String instrucao;
 
+    @PastOrPresent
+    @Schema(description = "Armazena a data em que a receita para a vacina foi gerada")
     private LocalDate dt_receita;
 
     @ManyToOne
     @JoinColumn(name = "Vacinas_id_vacina")
+    @Schema(description = "Indica qual vacina será aplicada")
     private Vacina vacina;
 
     @ManyToOne
     @JoinColumn(name = "Animal_id_animal")
+    @Schema(description = "Indica qual animal receberá a vacina")
     private Animal animal;
 
     public VacinaAnimal() {}

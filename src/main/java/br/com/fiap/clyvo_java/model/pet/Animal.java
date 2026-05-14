@@ -2,7 +2,7 @@ package br.com.fiap.clyvo_java.model.pet;
 
 import java.time.LocalDate;
 
-import br.com.fiap.clyvo_java.model.individuos.Tutor;
+import br.com.fiap.clyvo_java.model.individuos.Responsavel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -25,32 +26,41 @@ public class Animal {
 
     @Column(name = "nm_animal")
     @Size(max = 50)
+    @Schema(description = "Este atributo representa o nome do animal")
     private String nm_animal;
 
+    @Schema(description = "Este atributo representa a idade do animal")
     private Integer idade;
 
     @Size(max = 50)
+    @Schema(description = "Armazena a especie do animal")
     private String especie;
 
     @Size(max = 50)
+    @Schema(description = "Armazena a raça do animal")
     private String raca;
 
     @Size(max = 1)
+    @Schema(description = "Representa o sexo do animal")
     private String sexo;
 
+    @PastOrPresent
+    @Schema(description = "Armazena a data de nascimento do animal")
     private LocalDate dt_nascimento;
 
+    @Schema(description = "Armazena o peso atual do animal")
     private Double peso;
 
     @ManyToOne
     @JoinColumn(name = "Tutor_id_tutor")
-    private Tutor tutor;
+    @Schema(description = "Este atributo representa quando esse historico foi criado")
+    private Responsavel responsavel;
 
     public Animal() {}
 
 	public Animal(Long id_animal, @Size(max = 50) String nm_animal, Integer idade, @Size(max = 50) String especie,
 			@Size(max = 50) String raca, @Size(max = 1) String sexo, LocalDate dt_nascimento, Double peso,
-			Tutor tutor) {
+			Responsavel responsavel) {
 		super();
 		this.id_animal = id_animal;
 		this.nm_animal = nm_animal;
@@ -60,7 +70,18 @@ public class Animal {
 		this.sexo = sexo;
 		this.dt_nascimento = dt_nascimento;
 		this.peso = peso;
-		this.tutor = tutor;
+		this.responsavel = responsavel;
+	}
+	
+	public void transferirAnimal(Animal animal) {
+		this.nm_animal = animal.getNm_animal();
+		this.idade = animal.getIdade();
+		this.especie = animal.getEspecie();
+		this.raca = animal.getRaca();
+		this.sexo = animal.getSexo();
+		this.dt_nascimento = animal.getDt_nascimento();
+		this.peso = animal.getPeso();
+		this.responsavel = animal.getResponsavel();
 	}
 
 	public Long getId_animal() {
@@ -127,12 +148,12 @@ public class Animal {
 		this.peso = peso;
 	}
 
-	public Tutor getTutor() {
-		return tutor;
+	public Responsavel getResponsavel() {
+		return responsavel;
 	}
 
-	public void setTutor(Tutor tutor) {
-		this.tutor = tutor;
+	public void setResponsavel(Responsavel responsavel) {
+		this.responsavel = responsavel;
 	}
 
     

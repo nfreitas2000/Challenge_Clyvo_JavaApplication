@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "T_CLYVO_HISTORICO")
@@ -23,18 +24,23 @@ public class Historico {
     private Long id_historico;
 
     @Lob
+    @Schema(description = "Este atributo armazena o link da gravação da consulta")
     private String link_historico;
 
+    @PastOrPresent
+    @Schema(description = "Este atributo representa quando esse histórico foi criado")
     private LocalDate dt_criacao_historico;
 
     private Double num_consultas_clyvo;
 
     @ManyToOne
     @JoinColumn(name = "Consulta_id_consulta")
+    @Schema(description = "Este atributo representa a qual consulta o histórico gerado está associado")
     private Consulta consulta;
 
     @ManyToOne
     @JoinColumn(name = "Animal_id_animal")
+    @Schema(description = "Este atributo representa a qual animal esse histórico está associado")
     private Animal animal;
 
     public Historico() {}

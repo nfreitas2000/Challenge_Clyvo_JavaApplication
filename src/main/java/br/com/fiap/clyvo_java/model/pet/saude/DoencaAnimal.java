@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -23,23 +24,30 @@ public class DoencaAnimal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_doenca_animal;
 
+    @PastOrPresent
+    @Schema(description = "Este atributo representa quando um animal foi diagnosticado com uma doença")
     private LocalDate dt_diagnostico;
 
     @Size(max = 50)
+    @Schema(description = "Representa o quão grave é a doença")
     private String gravidade;
 
     @Size(max = 50)
+    @Schema(description = "Representa se a doença já foi tratada ou não")
     private String status;
 
     @Lob
+    @Schema(description = "Este atributo armazena observações relacionadas a resposta do animal a doença")
     private String observacoes;
 
     @ManyToOne
     @JoinColumn(name = "Animal_id_animal")
+    @Schema(description = "Este atributo representa qual animal está com a doença")
     private Animal animal;
 
     @ManyToOne
     @JoinColumn(name = "doenca_id_doenca")
+    @Schema(description = "Este atributo representa com qual doença o animal está contaminado")
     private Doenca doenca;
 
     public DoencaAnimal() {}

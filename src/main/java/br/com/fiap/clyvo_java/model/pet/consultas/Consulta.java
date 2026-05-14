@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "T_CLYVO_CONSULTA")
@@ -22,16 +24,22 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_consulta;
 
+    @PastOrPresent(message = "A data de nascimento do veterinário deve ser uma data passada ou presente")
+	@Schema(description = "Este atributo representa a data em que o responsável realizou o agendamento de uma consulta", example = "2000-01-01")
     private LocalDate dt_agendamento;
 
+    @NotNull
+	@Schema(description = "Este atributo representa a data em que o uma consulta será realizada", example = "2000-01-01")
     private LocalDate dt_consulta;
 
     @ManyToOne
     @JoinColumn(name = "Animal_id_animal")
+    @Schema(description = "Este atributo representa sobre qual animal a consulta será realizada")
     private Animal animal;
 
     @ManyToOne
     @JoinColumn(name = "Veterinario_id_veterinario")
+    @Schema(description = "Este atributo representa qual veterinário será responsável pela consulta")
     private Veterinario veterinario;
 
     public Consulta() {}

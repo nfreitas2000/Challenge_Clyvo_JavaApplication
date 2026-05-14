@@ -20,10 +20,10 @@ public class SwaggerUserConfig {
 	
 	@Bean
 	public UserDetailsService gerarUsuario() throws Exception {
-		return rm -> {
-			SwaggerUserModel usuario = repU.findByRm(rm).orElseThrow(() -> new UsernameNotFoundException("Usuário não foi localizado"));
+		return username -> {
+			SwaggerUserModel usuario = repU.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não foi localizado"));
 			return User.builder()
-					.username(usuario.getRm())
+					.username(usuario.getUsername())
 					.password(usuario.getSenha())
 					.roles(usuario.getPermissao())
 					.build();

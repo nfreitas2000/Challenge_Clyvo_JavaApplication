@@ -15,18 +15,20 @@ public class Doenca {
 
     @Column(name = "nm_doenca")
     @Size(max = 50)
+    @Schema(description = "Este atributo representa o nome de uma doença cadastrada")
     private String nm_doenca;
 
     @Size(max = 50)
+    @Schema(description = "Este atributo representa o tipo da doença")
     private String tipo;
 
     @Size(max = 1)
+    @Schema(description = "Este atributo representa se uma doença é contagiosa ou não")
     private String contagiosidade;
 
     @Lob
+    @Schema(description = "Este atributo armazena uma breve descrição da doença")
     private String descricao;
-
-    
     
     public Doenca() {}
 

@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -37,6 +38,7 @@ public class Veterinario {
 	@Schema(description = "Este atributo representa a data de nascimento do veterinário", example = "2000-01-01")
 	private LocalDate dt_nascimento;
 	
+	@Email
 	@Size(min = 1, max = 50, message = "O e-mail de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
 	@Schema(description = "Este atributo representa o email de contato do veterinário", example = "gabriel@gmail.com")
 	private String email;
@@ -46,9 +48,9 @@ public class Veterinario {
 	@Size(min = 1, max = 20, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 20 caracteres")
 	private String num_celular;
 	
-	@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório")
-	@Schema(description = "Este atributo representa o telefone de contato do veterinário", example = "+55 (11) 11111-1111")
-	@Size(min = 1, max = 50, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
+	@NotEmpty(message = "A especialidade do veterinário deve ser um campo obrigatório")
+	@Schema(description = "Este atributo representa a área que o veterinário é especializado", example = "+55 (11) 11111-1111")
+	@Size(min = 1, max = 50, message = "A especialização do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
 	private String especialidade;
 
 	

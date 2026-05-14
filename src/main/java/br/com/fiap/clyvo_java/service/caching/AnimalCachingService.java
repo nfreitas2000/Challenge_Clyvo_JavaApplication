@@ -1,4 +1,4 @@
-package br.com.fiap.clyvo_java.service;
+package br.com.fiap.clyvo_java.service.caching;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import br.com.fiap.clyvo_java.model.pet.Animal;
 import br.com.fiap.clyvo_java.repository.pet.AnimalRepository;
 
 @Service
-public class AnimalService {
+public class AnimalCachingService {
 
 	@Autowired
 	private AnimalRepository repA;
@@ -39,11 +39,11 @@ public class AnimalService {
 		return repA.retornarAnimalPorNome(parteNome);
 	}
 
-	@CacheEvict(value = { "retornarMusicasPorDuracao", "retornarMusicasPorSubstring",
-			"musicasPorPaginacao",
-			"musicasPorID", "todasMusicas" }, allEntries = true)
+	@CacheEvict(value = { "animaisPorNome", "animaisPaginados", "animaisID", "todosAnimais"}, allEntries = true)
 	public void removerCache() {
 		System.out.println("Removendo arquivos de cache");
 	}
+	
+	
 
 }

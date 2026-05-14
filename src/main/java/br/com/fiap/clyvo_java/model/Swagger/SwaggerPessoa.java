@@ -4,11 +4,15 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "T_CLYVO_SWAGGER_PESSOA")
@@ -17,10 +21,21 @@ public class SwaggerPessoa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Size(min = 1, max = 60)
+	@Schema(description = "Este atributo representa o nome do utilizador da API")
 	private String nome;
+	
 	@CPF
+	@Schema(description = "Este atributo representa o CPF do utilizador da API")
 	private String cpf;
+	
+	@Past
+	@Schema(description = "Representa a data de nascimento do utilizador da API")
 	private LocalDate dataNascimento;
+
+	@Email
+	@Schema(description = "Representa o e-mail de contato do utilizador da API")
 	private String emailPessoal;
 
 	public SwaggerPessoa() {

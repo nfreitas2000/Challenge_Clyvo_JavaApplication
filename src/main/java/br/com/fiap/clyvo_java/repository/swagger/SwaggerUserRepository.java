@@ -7,6 +7,6 @@ import br.com.fiap.clyvo_java.model.swagger.SwaggerUserModel;
 
 public interface SwaggerUserRepository extends JpaRepository<SwaggerUserModel, Long> {
 	
-	Optional<SwaggerUserModel> findByRm(String rm);
+	Optional<SwaggerUserModel> findByUsername(String username);
 
 }

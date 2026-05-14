@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.fiap.clyvo_java.dto.pet.AnimalDTO;
 import br.com.fiap.clyvo_java.model.pet.Animal;
-import br.com.fiap.clyvo_java.service.AnimalService;
+import br.com.fiap.clyvo_java.service.caching.AnimalCachingService;
 
 @Service
-public class AnimalServicePaginado {
+public class AnimalPageService {
 	@Autowired
-	private AnimalService cacheA;
+	private AnimalCachingService cacheA;
 
 	@Transactional(readOnly = true)
 	public Page<AnimalDTO> paginar(PageRequest req) {

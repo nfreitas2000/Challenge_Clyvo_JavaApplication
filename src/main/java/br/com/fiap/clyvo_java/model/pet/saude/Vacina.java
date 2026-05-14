@@ -15,22 +15,29 @@ public class Vacina {
 
     @Column(name = "nm_vacina")
     @Size(max = 50)
+    @Schema(description = "Este atributo armazena o nome da vacina")
     private String nm_vacina;
 
     @Size(max = 50)
+    @Schema(description = "Representa o tipo da vacina")
     private String tipo;
 
     @Lob
+    @Schema(description = "Apresenta uma breve descrição da vacina")
     private String descricao;
+    
+    @Schema(description = "Representa a quantidade de vacinas em estoque")
+    private int qtd_vacina;
 
     public Vacina() {}
 
-	public Vacina(Long id_vacina, @Size(max = 50) String nm_vacina, @Size(max = 50) String tipo, String descricao) {
+	public Vacina(Long id_vacina, @Size(max = 50) String nm_vacina, @Size(max = 50) String tipo, String descricao, int qtd_vacina) {
 		super();
 		this.id_vacina = id_vacina;
 		this.nm_vacina = nm_vacina;
 		this.tipo = tipo;
 		this.descricao = descricao;
+		this.qtd_vacina = qtd_vacina;
 	}
 
 	public Long getId_vacina() {
@@ -64,6 +71,16 @@ public class Vacina {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public int getQtd_vacina() {
+		return qtd_vacina;
+	}
+
+	public void setQtd_vacina(int qtd_vacina) {
+		this.qtd_vacina = qtd_vacina;
+	}
+	
+	
 
     
 }
