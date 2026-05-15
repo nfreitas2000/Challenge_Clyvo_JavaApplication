@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
@@ -23,9 +22,11 @@ public class VacinaAnimal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_vacina_animal;
 
-    @Lob
-    @Schema(description = "Representa passos para a aplicação e se é necessário um retorno para mais doses")
-    private String instrucao;
+    @Schema(description = "Representa a quantidade de doses totais já aplicadas")
+    private Integer num_doses;
+    
+    @Schema(description = "Representa qual a frequencia (em dias) que cada dose foi tomada")
+    private Integer frequencia_aplicacao;
 
     @PastOrPresent
     @Schema(description = "Armazena a data em que a receita para a vacina foi gerada")
@@ -43,17 +44,18 @@ public class VacinaAnimal {
 
     public VacinaAnimal() {}
 
-	public VacinaAnimal(Long id_vacina_animal, String instrucao, LocalDate dt_receita, Vacina vacina, Animal animal) {
-		super();
+	public VacinaAnimal(Long id_vacina_animal, Integer num_doses, Integer frequencia_aplicacao, LocalDate dt_receita, Vacina vacina, Animal animal) {
 		this.id_vacina_animal = id_vacina_animal;
-		this.instrucao = instrucao;
+		this.num_doses = num_doses;
+		this.frequencia_aplicacao = frequencia_aplicacao;
 		this.dt_receita = dt_receita;
 		this.vacina = vacina;
 		this.animal = animal;
 	}
 	
 	public void transferirVacinaAnimal(VacinaAnimal vacinaAnimal) {
-		this.instrucao = vacinaAnimal.getInstrucao();
+		this.num_doses = vacinaAnimal.getNum_doses();
+		this.frequencia_aplicacao = vacinaAnimal.getFrequencia_aplicacao();
 		this.dt_receita = vacinaAnimal.getDt_receita();
 		this.vacina = vacinaAnimal.getVacina();
 		this.animal = vacinaAnimal.getAnimal();
@@ -65,14 +67,6 @@ public class VacinaAnimal {
 
 	public void setId_vacina_animal(Long id_vacina_animal) {
 		this.id_vacina_animal = id_vacina_animal;
-	}
-
-	public String getInstrucao() {
-		return instrucao;
-	}
-
-	public void setInstrucao(String instrucao) {
-		this.instrucao = instrucao;
 	}
 
 	public LocalDate getDt_receita() {
@@ -98,6 +92,24 @@ public class VacinaAnimal {
 	public void setAnimal(Animal animal) {
 		this.animal = animal;
 	}
+
+	public Integer getNum_doses() {
+		return num_doses;
+	}
+
+	public void setNum_doses(Integer num_doses) {
+		this.num_doses = num_doses;
+	}
+
+	public Integer getFrequencia_aplicacao() {
+		return frequencia_aplicacao;
+	}
+
+	public void setFrequencia_aplicacao(Integer frequencia_aplicacao) {
+		this.frequencia_aplicacao = frequencia_aplicacao;
+	}
+	
+	
 
     
 }

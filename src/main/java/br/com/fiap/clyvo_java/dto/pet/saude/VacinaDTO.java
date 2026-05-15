@@ -15,24 +15,19 @@ public class VacinaDTO {
     @Schema(description = "Descrição da vacina", example = "Vacina múltipla canina")
     private String descricao;
 
-    @Schema(description = "Quantidade de doses disponíveis", example = "10")
-    private Integer qtd_vacina;
-
     public VacinaDTO() {
     }
 
-    public VacinaDTO(String nm_vacina, String tipo, String descricao, Integer qtd_vacina) {
+    public VacinaDTO(String nm_vacina, String tipo, String descricao) {
         this.nm_vacina = nm_vacina;
         this.tipo = tipo;
         this.descricao = descricao;
-        this.qtd_vacina = qtd_vacina;
     }
 
     public VacinaDTO(Vacina vacina) {
         this.nm_vacina = vacina.getNm_vacina();
         this.tipo = vacina.getTipo();
         this.descricao = vacina.getDescricao();
-        this.qtd_vacina = vacina.getQtd_vacina();
     }
 
     public String getNm_vacina() {
@@ -57,13 +52,5 @@ public class VacinaDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Integer getQtd_vacina() {
-        return qtd_vacina;
-    }
-
-    public void setQtd_vacina(Integer qtd_vacina) {
-        this.qtd_vacina = qtd_vacina;
     }
 }
