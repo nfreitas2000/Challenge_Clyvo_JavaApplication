@@ -30,7 +30,7 @@ public class Veterinario {
 	private String nm_veterinario;
 	
 	@CPF
-	@Size(max = 11, message = "O CPF do veterinário deve possuir no máximo 11 caracteres")
+	@Size(max = 14, message = "O CPF do veterinário deve possuir no máximo 14 caracteres")
 	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do veterinário", example = "11111111111")
 	private String cpf;
 	
@@ -58,14 +58,8 @@ public class Veterinario {
 	
 	public Veterinario() {}
 
-	public Veterinario(Long id_veterinario,
-			@NotEmpty(message = "O nome do veterinário é um campo obrigatório") @Size(min = 1, max = 50, message = "O nome do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String nm_veterinario,
-			@CPF @Size(max = 11, message = "O CPF do veterinário deve possuir no máximo 11 caracteres") String cpf,
-			@Past(message = "A data de nascimento do veterinário deve ser uma data passada") LocalDate dt_nascimento,
-			@Size(min = 1, max = 50, message = "O e-mail de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String email,
-			@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório") @Size(min = 1, max = 20, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 20 caracteres") String num_celular,
-			@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório") @Size(min = 1, max = 50, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres") String especialidade) {
-		super();
+	public Veterinario(Long id_veterinario, String nm_veterinario, String cpf, LocalDate dt_nascimento, String email, String num_celular, String especialidade) {
+		
 		this.id_veterinario = id_veterinario;
 		this.nm_veterinario = nm_veterinario;
 		this.cpf = cpf;
@@ -73,6 +67,15 @@ public class Veterinario {
 		this.email = email;
 		this.num_celular = num_celular;
 		this.especialidade = especialidade;
+	}
+	
+	public void transferirVeterinario(Veterinario veterinario) {
+		this.nm_veterinario = veterinario.getNm_veterinario();
+		this.cpf = veterinario.getCpf();
+		this.dt_nascimento = veterinario.getDt_nascimento();
+		this.email = veterinario.getEmail();
+		this.num_celular = veterinario.getNum_celular();
+		this.especialidade = veterinario.getEspecialidade();
 	}
 
 	public Long getId_veterinario() {

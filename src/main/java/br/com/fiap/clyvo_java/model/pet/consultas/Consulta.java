@@ -53,6 +53,13 @@ public class Consulta {
 		this.animal = animal;
 		this.veterinario = veterinario;
 	}
+	
+	public void transferirConsulta(Consulta consulta) {
+		this.dt_agendamento = consulta.getDt_agendamento();
+		this.dt_consulta = consulta.getDt_consulta();
+		this.animal = consulta.getAnimal();
+		this.veterinario = consulta.getVeterinario();
+	}
 
 	public Long getId_consulta() {
 		return id_consulta;

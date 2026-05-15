@@ -63,6 +63,15 @@ public class DoencaAnimal {
 		this.animal = animal;
 		this.doenca = doenca;
 	}
+	
+	public void transferirDoencaAnimal(DoencaAnimal doencaAnimal) {
+		this.dt_diagnostico = doencaAnimal.getDt_diagnostico();
+		this.gravidade = doencaAnimal.getGravidade();
+		this.status = doencaAnimal.getStatus();
+		this.observacoes = doencaAnimal.getObservacoes();
+		this.animal = doencaAnimal.getAnimal();
+		this.doenca = doencaAnimal.getDoenca();
+	}
 
 	public Long getId_doenca_animal() {
 		return id_doenca_animal;

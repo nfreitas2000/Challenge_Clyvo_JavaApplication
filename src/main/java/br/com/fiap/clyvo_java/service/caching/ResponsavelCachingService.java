@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
-import br.com.fiap.clyvo_java.model.pet.Animal;
 import br.com.fiap.clyvo_java.repository.individuos.ResponsavelRepository;
 
 @Service

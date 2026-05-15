@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.individuos.ResponsavelDTO;
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
-import br.com.fiap.clyvo_java.model.pet.Animal;
 import br.com.fiap.clyvo_java.repository.individuos.ResponsavelRepository;
 import br.com.fiap.clyvo_java.service.caching.ResponsavelCachingService;
 import br.com.fiap.clyvo_java.service.paginacao.ResponsavelPageService;

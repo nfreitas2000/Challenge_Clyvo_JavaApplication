@@ -39,6 +39,13 @@ public class Vacina {
 		this.descricao = descricao;
 		this.qtd_vacina = qtd_vacina;
 	}
+	
+	public void transferirVacina(Vacina vacina) {
+		this.nm_vacina = vacina.getNm_vacina();
+		this.tipo = vacina.getTipo();
+		this.descricao = vacina.getDescricao();
+		this.qtd_vacina = vacina.getQtd_vacina();
+	}
 
 	public Long getId_vacina() {
 		return id_vacina;

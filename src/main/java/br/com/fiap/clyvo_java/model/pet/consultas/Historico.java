@@ -55,6 +55,14 @@ public class Historico {
 		this.consulta = consulta;
 		this.animal = animal;
 	}
+	
+	public void transferirHistorico(Historico historico) {
+		this.link_historico = historico.getLink_historico();
+		this.dt_criacao_historico = historico.getDt_criacao_historico();
+		this.num_consultas_clyvo = historico.getNum_consultas_clyvo();
+		this.consulta = historico.getConsulta();
+		this.animal = historico.getAnimal();
+	}
 
 	public Long getId_historico() {
 		return id_historico;

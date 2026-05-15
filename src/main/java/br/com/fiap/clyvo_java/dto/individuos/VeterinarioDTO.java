@@ -1,5 +1,7 @@
 package br.com.fiap.clyvo_java.dto.individuos;
 
+import br.com.fiap.clyvo_java.model.individuos.Veterinario;
+
 public class VeterinarioDTO {
 	
 	    private String nm_veterinario;
@@ -10,11 +12,17 @@ public class VeterinarioDTO {
 	    public VeterinarioDTO() {}
 
 		public VeterinarioDTO(String nm_veterinario, String email, String num_celular, String especialidade) {
-			super();
 			this.nm_veterinario = nm_veterinario;
 			this.email = email;
 			this.num_celular = num_celular;
 			this.especialidade = especialidade;
+		}
+		
+		public VeterinarioDTO(Veterinario veterinario) {
+			this.nm_veterinario = veterinario.getNm_veterinario();
+			this.email = veterinario.getEmail();
+			this.num_celular = veterinario.getNm_veterinario();
+			this.especialidade = veterinario.getEspecialidade();
 		}
 		
 		public String getNm_veterinario() {

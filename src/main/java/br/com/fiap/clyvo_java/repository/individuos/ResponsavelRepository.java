@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
-import br.com.fiap.clyvo_java.model.pet.Animal;
 
 public interface ResponsavelRepository extends JpaRepository<Responsavel, Long>  {
 

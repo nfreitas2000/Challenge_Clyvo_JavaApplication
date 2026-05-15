@@ -51,6 +51,13 @@ public class VacinaAnimal {
 		this.vacina = vacina;
 		this.animal = animal;
 	}
+	
+	public void transferirVacinaAnimal(VacinaAnimal vacinaAnimal) {
+		this.instrucao = vacinaAnimal.getInstrucao();
+		this.dt_receita = vacinaAnimal.getDt_receita();
+		this.vacina = vacinaAnimal.getVacina();
+		this.animal = vacinaAnimal.getAnimal();
+	}
 
 	public Long getId_vacina_animal() {
 		return id_vacina_animal;

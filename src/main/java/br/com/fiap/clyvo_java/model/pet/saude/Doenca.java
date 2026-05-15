@@ -41,6 +41,13 @@ public class Doenca {
 		this.contagiosidade = contagiosidade;
 		this.descricao = descricao;
 	}
+	
+	public void transferirDoenca(Doenca doenca) {
+		this.nm_doenca = doenca.getNm_doenca();
+		this.tipo = doenca.getTipo();
+		this.contagiosidade = doenca.getContagiosidade();
+		this.descricao = doenca.getDescricao();
+	}
 
 	public Long getId_doenca() {
 		return id_doenca;
