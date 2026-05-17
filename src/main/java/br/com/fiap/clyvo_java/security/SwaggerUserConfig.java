@@ -17,6 +17,7 @@ public class SwaggerUserConfig {
 	
 	@Autowired
 	private SwaggerUserRepository repU;
+
 	
 	@Bean
 	public UserDetailsService gerarUsuario() throws Exception {
