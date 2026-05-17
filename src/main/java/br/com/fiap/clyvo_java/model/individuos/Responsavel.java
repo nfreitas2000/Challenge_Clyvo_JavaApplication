@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
@@ -28,6 +30,7 @@ import jakarta.validation.constraints.Size;
 public class Responsavel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_responsavel")
 	private Long id_responsavel;
 	
 	@Column(name = "nm_responsavel")
@@ -37,20 +40,24 @@ public class Responsavel {
 	private String nm_responsavel;
 	
 	@CPF
+	@Column(name = "cpf")
 	@Size(max = 14, message = "O CPF do responsavel deve possuir no máximo 14 caracteres")
 	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do responsavel", example = "123.456.789-01")
 	private String cpf;
 
+	@Column(name = "dt_nascimento")
 	@Past(message = "A data de nascimento do responsavel deve ser uma data passada")
 	@Schema(description = "Este atributo representa a data de nascimento do responsavel", example = "1995-01-01")
 	private LocalDate dt_nascimento;
 	
 	@Email
+	@Column(name = "email")
 	@NotEmpty(message = "O email de contato do responsavel é um campo obrigatório")
 	@Size(min = 1, max = 50, message = "O e-mail de contato do responsavel deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
 	@Schema(description = "Este atributo representa o email de contato do responsavel", example = "rodrigo@gmail.com")
 	private String email;
 	
+	@Column(name = "num_celular")
 	@NotEmpty(message = "O número de telefone do responsavel deve ser um campo obrigatório")
 	@Schema(description = "Este atributo representa o telefone de contato do responsavel", example = "+55 (11) 11111-1111")
 	@Size(min = 1, max = 20, message = "O telefone de contato do responsavel deve possuir ao menos 1 caracter e, no máximo, 20 caracteres")
@@ -78,6 +85,7 @@ public class Responsavel {
 		this.num_celular = responsavel.getNum_celular();
 	}
 	
+	@JsonIgnore
 	@OneToMany(
 		    mappedBy = "responsavel",
 		    cascade = CascadeType.ALL,

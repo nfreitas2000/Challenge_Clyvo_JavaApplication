@@ -3,6 +3,8 @@ package br.com.fiap.clyvo_java.model.pet.saude;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,25 +24,28 @@ public class Vacina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_vacina")
     private Long id_vacina;
 
-    @Column(name = "nm_vacina")
+    
     @Size(max = 50)
+    @Column(name = "nm_vacina")
     @Schema(description = "Este atributo armazena o nome da vacina")
     private String nm_vacina;
 
     @Size(max = 50)
+    @Column(name = "tipo")
     @Schema(description = "Representa o tipo da vacina")
     private String tipo;
 
     @Lob
+    @Column(name = "descricao")
     @Schema(description = "Apresenta uma breve descrição da vacina")
     private String descricao;
 
-
     public Vacina() {}
 
-	public Vacina(Long id_vacina, @Size(max = 50) String nm_vacina, @Size(max = 50) String tipo, String descricao) {
+	public Vacina(Long id_vacina, String nm_vacina, String tipo, String descricao) {
 		super();
 		this.id_vacina = id_vacina;
 		this.nm_vacina = nm_vacina;
@@ -54,6 +59,7 @@ public class Vacina {
 		this.descricao = vacina.getDescricao();
 	}
 	
+	@JsonIgnore
 	@OneToMany(
 		    mappedBy = "vacina",
 		    cascade = CascadeType.ALL,
@@ -65,6 +71,7 @@ public class Vacina {
 	public List<VacinaAnimal> getAnimaisVacinados() {
 		return animaisVacinados;
 	}
+	
 
 	public void setAnimaisVacinados(List<VacinaAnimal> animaisVacinados) {
 		this.animaisVacinados = animaisVacinados;

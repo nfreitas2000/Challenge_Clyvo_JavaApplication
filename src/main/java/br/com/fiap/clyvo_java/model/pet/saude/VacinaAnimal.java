@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,25 +21,29 @@ public class VacinaAnimal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_vacina_animal")
     private Long id_vacina_animal;
 
+    @Column(name = "num_doses")
     @Schema(description = "Representa a quantidade de doses totais já aplicadas")
     private Integer num_doses;
     
+    @Column(name = "frequencia_aplicacao")
     @Schema(description = "Representa qual a frequencia (em dias) que cada dose foi tomada")
     private Integer frequencia_aplicacao;
 
     @PastOrPresent
+    @Column(name = "dt_receita")
     @Schema(description = "Armazena a data em que a receita para a vacina foi gerada")
     private LocalDate dt_receita;
 
     @ManyToOne
-    @JoinColumn(name = "Vacinas_id_vacina")
+    @JoinColumn(name = "fk_id_vacina")
     @Schema(description = "Indica qual vacina será aplicada")
     private Vacina vacina;
 
     @ManyToOne
-    @JoinColumn(name = "Animal_id_animal")
+    @JoinColumn(name = "fk_id_animal")
     @Schema(description = "Indica qual animal receberá a vacina")
     private Animal animal;
 

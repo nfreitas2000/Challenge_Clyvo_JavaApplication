@@ -3,6 +3,8 @@ package br.com.fiap.clyvo_java.model.pet;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
 import br.com.fiap.clyvo_java.model.pet.consultas.Consulta;
 import br.com.fiap.clyvo_java.model.pet.consultas.Historico;
@@ -29,6 +31,7 @@ public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_animal")
     private Long id_animal;
 
     @Column(name = "nm_animal")
@@ -36,39 +39,43 @@ public class Animal {
     @Schema(description = "Este atributo representa o nome do animal")
     private String nm_animal;
 
+    @Column(name = "idade")
     @Schema(description = "Este atributo representa a idade do animal")
     private Integer idade;
 
+    
     @Size(max = 50)
+    @Column(name = "especie")
     @Schema(description = "Armazena a especie do animal")
     private String especie;
 
     @Size(max = 50)
+    @Column(name = "raca")
     @Schema(description = "Armazena a raça do animal")
     private String raca;
 
     @Size(max = 1)
+    @Column(name = "sexo")
     @Schema(description = "Representa o sexo do animal")
     private String sexo;
 
     @PastOrPresent
+    @Column(name = "dt_nascimento")
     @Schema(description = "Armazena a data de nascimento do animal")
     private LocalDate dt_nascimento;
 
+    @Column(name = "peso")
     @Schema(description = "Armazena o peso atual do animal")
     private Double peso;
 
     @ManyToOne
-    @JoinColumn(name = "Responsavel_id_responsavel")
+    @JoinColumn(name = "fk_id_responsavel")
     @Schema(description = "Este atributo representa quando esse historico foi criado")
     private Responsavel responsavel;
 
     public Animal() {}
 
-	public Animal(Long id_animal, @Size(max = 50) String nm_animal, Integer idade, @Size(max = 50) String especie,
-			@Size(max = 50) String raca, @Size(max = 1) String sexo, LocalDate dt_nascimento, Double peso,
-			Responsavel responsavel) {
-		super();
+	public Animal(Long id_animal, String nm_animal, Integer idade, String especie, String raca,String sexo, LocalDate dt_nascimento, Double peso, Responsavel responsavel) {
 		this.id_animal = id_animal;
 		this.nm_animal = nm_animal;
 		this.idade = idade;
@@ -91,7 +98,7 @@ public class Animal {
 		this.responsavel = animal.getResponsavel();
 	}
 
-
+	@JsonIgnore
 	@OneToMany(
 	    mappedBy = "animal",
 	    cascade = CascadeType.ALL,
@@ -99,7 +106,7 @@ public class Animal {
 	)
 	private List<VacinaAnimal> vacinas;
 
-
+	@JsonIgnore
 	@OneToMany(
 	    mappedBy = "animal",
 	    cascade = CascadeType.ALL,
@@ -107,7 +114,7 @@ public class Animal {
 	)
 	private List<DoencaAnimal> doencas;
 
-
+	@JsonIgnore
 	@OneToMany(
 	    mappedBy = "animal",
 	    cascade = CascadeType.ALL,
@@ -115,7 +122,7 @@ public class Animal {
 	)
 	private List<Consulta> consultas;
 
-
+	@JsonIgnore
 	@OneToMany(
 	    mappedBy = "animal",
 	    cascade = CascadeType.ALL,

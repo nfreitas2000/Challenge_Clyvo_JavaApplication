@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.fiap.clyvo_java.model.individuos.Veterinario;
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,24 +28,27 @@ import jakarta.validation.constraints.PastOrPresent;
 public class Consulta {
 
     @Id
+    @Column(name = "id_consulta")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_consulta;
 
     @PastOrPresent(message = "A data de nascimento do veterinário deve ser uma data passada ou presente")
+    @Column(name = "dt_agendamento")
 	@Schema(description = "Este atributo representa a data em que o responsável realizou o agendamento de uma consulta", example = "2000-01-01")
     private LocalDate dt_agendamento;
 
     @NotNull
+    @Column(name = "dt_consulta")
 	@Schema(description = "Este atributo representa a data em que o uma consulta será realizada", example = "2000-01-01")
     private LocalDate dt_consulta;
 
     @ManyToOne
-    @JoinColumn(name = "Animal_id_animal")
+    @JoinColumn(name = "fk_id_animal")
     @Schema(description = "Este atributo representa sobre qual animal a consulta será realizada")
     private Animal animal;
 
     @ManyToOne
-    @JoinColumn(name = "Veterinario_id_veterinario")
+    @JoinColumn(name = "fk_id_veterinario")
     @Schema(description = "Este atributo representa qual veterinário será responsável pela consulta")
     private Veterinario veterinario;
 
@@ -50,7 +56,6 @@ public class Consulta {
 
 	public Consulta(Long id_consulta, LocalDate dt_agendamento, LocalDate dt_consulta, Animal animal,
 			Veterinario veterinario) {
-		super();
 		this.id_consulta = id_consulta;
 		this.dt_agendamento = dt_agendamento;
 		this.dt_consulta = dt_consulta;
@@ -65,6 +70,7 @@ public class Consulta {
 		this.veterinario = consulta.getVeterinario();
 	}
 	
+	@JsonIgnore
 	@OneToMany(
 		    mappedBy = "consulta",
 		    cascade = CascadeType.ALL,

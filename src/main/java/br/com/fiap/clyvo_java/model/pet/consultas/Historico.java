@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,25 +22,28 @@ public class Historico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_historico")
     private Long id_historico;
 
     @Lob
+    @Column(name = "link_historico")
     @Schema(description = "Este atributo armazena o link da gravação da consulta")
     private String link_historico;
 
     @PastOrPresent
+    @Column(name = "dt_criacao_historico")
     @Schema(description = "Este atributo representa quando esse histórico foi criado")
     private LocalDate dt_criacao_historico;
 
     private Double num_consultas_clyvo;
 
     @ManyToOne
-    @JoinColumn(name = "Consulta_id_consulta")
+    @JoinColumn(name = "fk_id_consulta")
     @Schema(description = "Este atributo representa a qual consulta o histórico gerado está associado")
     private Consulta consulta;
 
     @ManyToOne
-    @JoinColumn(name = "Animal_id_animal")
+    @JoinColumn(name = "fk_id_animal")
     @Schema(description = "Este atributo representa a qual animal esse histórico está associado")
     private Animal animal;
 

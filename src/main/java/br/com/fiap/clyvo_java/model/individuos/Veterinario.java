@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.fiap.clyvo_java.model.pet.consultas.Consulta;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
@@ -27,6 +29,7 @@ import jakarta.validation.constraints.Size;
 public class Veterinario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_veterinario")
 	private Long id_veterinario;
 	
 	@Column(name = "nm_veterinario")
@@ -35,24 +38,29 @@ public class Veterinario {
 	private String nm_veterinario;
 	
 	@CPF
+	@Column(name = "cpf")
 	@Size(max = 14, message = "O CPF do veterinário deve possuir no máximo 14 caracteres")
 	@Schema(description = "Este atributo representa o CPF (Cadastro de Pessoa Fisica) do veterinário", example = "11111111111")
 	private String cpf;
 	
+	@Column(name = "dt_nascimento")
 	@Past(message = "A data de nascimento do veterinário deve ser uma data passada")
 	@Schema(description = "Este atributo representa a data de nascimento do veterinário", example = "2000-01-01")
 	private LocalDate dt_nascimento;
 	
+	@Column(name = "email")
 	@Email
 	@Size(min = 1, max = 50, message = "O e-mail de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
 	@Schema(description = "Este atributo representa o email de contato do veterinário", example = "gabriel@gmail.com")
 	private String email;
 	
+	@Column(name = "num_celular")
 	@NotEmpty(message = "O número de telefone do veterinário deve ser um campo obrigatório")
 	@Schema(description = "Este atributo representa o telefone de contato do veterinário", example = "+55 (11) 11111-1111")
 	@Size(min = 1, max = 20, message = "O telefone de contato do veterinário deve possuir ao menos 1 caracter e, no máximo, 20 caracteres")
 	private String num_celular;
 	
+	@Column(name = "especialidade")
 	@NotEmpty(message = "A especialidade do veterinário deve ser um campo obrigatório")
 	@Schema(description = "Este atributo representa a área que o veterinário é especializado", example = "+55 (11) 11111-1111")
 	@Size(min = 1, max = 50, message = "A especialização do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
@@ -80,6 +88,7 @@ public class Veterinario {
 		this.especialidade = veterinario.getEspecialidade();
 	}
 	
+	@JsonIgnore
 	@OneToMany(
 		    mappedBy = "veterinario",
 		    cascade = CascadeType.ALL,

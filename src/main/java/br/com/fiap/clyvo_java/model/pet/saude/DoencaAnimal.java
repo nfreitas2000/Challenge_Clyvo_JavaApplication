@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,31 +23,36 @@ public class DoencaAnimal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_doenca_animal")
     private Long id_doenca_animal;
 
     @PastOrPresent
+    @Column(name = "dt_diagnostico")
     @Schema(description = "Este atributo representa quando um animal foi diagnosticado com uma doença")
     private LocalDate dt_diagnostico;
 
     @Size(max = 50)
+    @Column(name = "gravidade")
     @Schema(description = "Representa o quão grave é a doença")
     private String gravidade;
 
     @Size(max = 50)
+    @Column(name = "status")
     @Schema(description = "Representa se a doença já foi tratada ou não")
     private String status;
 
     @Lob
+    @Column(name = "observacoes")
     @Schema(description = "Este atributo armazena observações relacionadas a resposta do animal a doença")
     private String observacoes;
 
     @ManyToOne
-    @JoinColumn(name = "Animal_id_animal")
+    @JoinColumn(name = "fk_id_animal")
     @Schema(description = "Este atributo representa qual animal está com a doença")
     private Animal animal;
 
     @ManyToOne
-    @JoinColumn(name = "doenca_id_doenca")
+    @JoinColumn(name = "fk_id_doenca")
     @Schema(description = "Este atributo representa com qual doença o animal está contaminado")
     private Doenca doenca;
 

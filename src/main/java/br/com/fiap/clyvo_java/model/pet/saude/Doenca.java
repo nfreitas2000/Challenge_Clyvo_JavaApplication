@@ -3,6 +3,8 @@ package br.com.fiap.clyvo_java.model.pet.saude;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +24,7 @@ public class Doenca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_doenca")
     private Long id_doenca;
 
     @Column(name = "nm_doenca")
@@ -30,14 +33,17 @@ public class Doenca {
     private String nm_doenca;
 
     @Size(max = 50)
+    @Column(name = "tipo")
     @Schema(description = "Este atributo representa o tipo da doença")
     private String tipo;
 
     @Size(max = 1)
+    @Column(name = "contagiosidade")
     @Schema(description = "Este atributo representa se uma doença é contagiosa ou não")
     private String contagiosidade;
 
     @Lob
+    @Column(name = "descricao")
     @Schema(description = "Este atributo armazena uma breve descrição da doença")
     private String descricao;
     
@@ -60,6 +66,7 @@ public class Doenca {
 		this.descricao = doenca.getDescricao();
 	}
 	
+	@JsonIgnore
 	@OneToMany(
 		    mappedBy = "doenca",
 		    cascade = CascadeType.ALL,

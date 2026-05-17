@@ -9,7 +9,7 @@ import br.com.fiap.clyvo_java.model.pet.saude.Doenca;
 
 public interface DoencaRepository extends JpaRepository<Doenca, Long>  {
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_DOENCA WHERE UPPER(nm_doenca) LIKE UPPER(CONCAT('%', :substring, '%'))")
+	@Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_DOENCA WHERE UPPER(nm_doenca) LIKE UPPER(CONCAT('%', :substring, '%')) ORDER BY nm_doenca")
     List<Doenca> retornarDoencaPorNome(String substring);
 
 }

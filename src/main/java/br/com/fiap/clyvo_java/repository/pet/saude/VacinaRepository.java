@@ -9,7 +9,7 @@ import br.com.fiap.clyvo_java.model.pet.saude.Vacina;
 
 public interface VacinaRepository extends JpaRepository<Vacina, Long> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_VACINA WHERE UPPER(nm_vacina) LIKE UPPER(CONCAT('%', :substring, '%'))")
+	@Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_VACINA WHERE UPPER(nm_vacina) LIKE UPPER(CONCAT('%', :substring, '%')) ORDER BY nm_vacina")
     List<Vacina> retornarVacinaPorNome(String substring);
 	
 }
