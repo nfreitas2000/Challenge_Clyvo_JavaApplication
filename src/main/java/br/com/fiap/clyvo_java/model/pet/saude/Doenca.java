@@ -1,7 +1,18 @@
 package br.com.fiap.clyvo_java.model.pet.saude;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -47,6 +58,23 @@ public class Doenca {
 		this.tipo = doenca.getTipo();
 		this.contagiosidade = doenca.getContagiosidade();
 		this.descricao = doenca.getDescricao();
+	}
+	
+	@OneToMany(
+		    mappedBy = "doenca",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true
+		)
+	private List<DoencaAnimal> animaisDoentes = new ArrayList<>();
+	
+	
+
+	public List<DoencaAnimal> getAnimaisDoentes() {
+		return animaisDoentes;
+	}
+
+	public void setAnimaisDoentes(List<DoencaAnimal> animaisDoentes) {
+		this.animaisDoentes = animaisDoentes;
 	}
 
 	public Long getId_doenca() {

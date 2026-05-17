@@ -1,15 +1,20 @@
 package br.com.fiap.clyvo_java.model.individuos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -73,6 +78,20 @@ public class Responsavel {
 		this.num_celular = responsavel.getNum_celular();
 	}
 	
+	@OneToMany(
+		    mappedBy = "responsavel",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true)
+	private List<Animal> animais = new ArrayList<>();
+	
+	public List<Animal> getAnimais() {
+		return animais;
+	}
+
+	public void setAnimais(List<Animal> animais) {
+		this.animais = animais;
+	}
+
 	public Long getId_responsavel() {
 		return id_responsavel;
 	}

@@ -1,7 +1,18 @@
 package br.com.fiap.clyvo_java.model.pet.saude;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -41,6 +52,22 @@ public class Vacina {
 		this.nm_vacina = vacina.getNm_vacina();
 		this.tipo = vacina.getTipo();
 		this.descricao = vacina.getDescricao();
+	}
+	
+	@OneToMany(
+		    mappedBy = "vacina",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true)
+	private List<VacinaAnimal> animaisVacinados = new ArrayList<>();
+	
+	
+
+	public List<VacinaAnimal> getAnimaisVacinados() {
+		return animaisVacinados;
+	}
+
+	public void setAnimaisVacinados(List<VacinaAnimal> animaisVacinados) {
+		this.animaisVacinados = animaisVacinados;
 	}
 
 	public Long getId_vacina() {

@@ -8,7 +8,7 @@ INSERT INTO T_CLYVO_RESPONSAVEL (nm_responsavel, cpf, dt_nascimento, email, num_
 
 INSERT INTO T_CLYVO_VETERINARIO (nm_veterinario, cpf, dt_nascimento, email, num_celular, especialidade) VALUES ('Gabriel Martins', '295.379.148-06', DATE '1988-03-15', 'gabriel@gmail.com', '+55 (11) 97777-7777', 'Cardiologia');
 
-INSERT INTO T_CLYVO_ANIMAL (nm_animal, idade, especie, raca, sexo, dt_nascimento, peso, tutor_id_tutor) VALUES ('Thor', 5, 'Cachorro', 'Golden Retriever', 'M', DATE '2021-03-10', 32, 1);
+INSERT INTO T_CLYVO_ANIMAL (nm_animal, idade, especie, raca, sexo, dt_nascimento, peso, Responsavel_id_responsavel) VALUES ('Thor', 5, 'Cachorro', 'Golden Retriever', 'M', DATE '2021-03-10', 32, 1);
 
 INSERT INTO T_CLYVO_DOENCA (nm_doenca, tipo, descricao, contagiosidade) VALUES ('Otite', 'Infecção', 'Infecção no ouvido', 'N');
 

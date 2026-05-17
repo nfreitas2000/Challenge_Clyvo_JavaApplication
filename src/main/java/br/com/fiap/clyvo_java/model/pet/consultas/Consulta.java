@@ -1,16 +1,20 @@
 package br.com.fiap.clyvo_java.model.pet.consultas;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fiap.clyvo_java.model.individuos.Veterinario;
 import br.com.fiap.clyvo_java.model.pet.Animal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -59,6 +63,23 @@ public class Consulta {
 		this.dt_consulta = consulta.getDt_consulta();
 		this.animal = consulta.getAnimal();
 		this.veterinario = consulta.getVeterinario();
+	}
+	
+	@OneToMany(
+		    mappedBy = "consulta",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true
+		)
+	private List<Historico> historicos = new ArrayList<>();
+	
+	
+
+	public List<Historico> getHistoricos() {
+		return historicos;
+	}
+
+	public void setHistoricos(List<Historico> historicos) {
+		this.historicos = historicos;
 	}
 
 	public Long getId_consulta() {

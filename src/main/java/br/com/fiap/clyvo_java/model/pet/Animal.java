@@ -1,9 +1,15 @@
 package br.com.fiap.clyvo_java.model.pet;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
+import br.com.fiap.clyvo_java.model.pet.consultas.Consulta;
+import br.com.fiap.clyvo_java.model.pet.consultas.Historico;
+import br.com.fiap.clyvo_java.model.pet.saude.DoencaAnimal;
+import br.com.fiap.clyvo_java.model.pet.saude.VacinaAnimal;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -52,7 +59,7 @@ public class Animal {
     private Double peso;
 
     @ManyToOne
-    @JoinColumn(name = "Tutor_id_tutor")
+    @JoinColumn(name = "Responsavel_id_responsavel")
     @Schema(description = "Este atributo representa quando esse historico foi criado")
     private Responsavel responsavel;
 
@@ -83,6 +90,38 @@ public class Animal {
 		this.peso = animal.getPeso();
 		this.responsavel = animal.getResponsavel();
 	}
+
+
+	@OneToMany(
+	    mappedBy = "animal",
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true
+	)
+	private List<VacinaAnimal> vacinas;
+
+
+	@OneToMany(
+	    mappedBy = "animal",
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true
+	)
+	private List<DoencaAnimal> doencas;
+
+
+	@OneToMany(
+	    mappedBy = "animal",
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true
+	)
+	private List<Consulta> consultas;
+
+
+	@OneToMany(
+	    mappedBy = "animal",
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true
+	)
+	private List<Historico> historicos;
 
 	public Long getId_animal() {
 		return id_animal;
@@ -156,6 +195,39 @@ public class Animal {
 		this.responsavel = responsavel;
 	}
 
+	public List<VacinaAnimal> getVacinas() {
+		return vacinas;
+	}
+
+	public void setVacinas(List<VacinaAnimal> vacinas) {
+		this.vacinas = vacinas;
+	}
+
+	public List<DoencaAnimal> getDoencas() {
+		return doencas;
+	}
+
+	public void setDoencas(List<DoencaAnimal> doencas) {
+		this.doencas = doencas;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
+
+	public List<Historico> getHistoricos() {
+		return historicos;
+	}
+
+	public void setHistoricos(List<Historico> historicos) {
+		this.historicos = historicos;
+	}
+
+	
     
     
     

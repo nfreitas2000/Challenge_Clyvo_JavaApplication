@@ -1,15 +1,20 @@
 package br.com.fiap.clyvo_java.model.individuos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.fiap.clyvo_java.model.pet.consultas.Consulta;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -52,9 +57,6 @@ public class Veterinario {
 	@Schema(description = "Este atributo representa a área que o veterinário é especializado", example = "+55 (11) 11111-1111")
 	@Size(min = 1, max = 50, message = "A especialização do veterinário deve possuir ao menos 1 caracter e, no máximo, 50 caracteres")
 	private String especialidade;
-
-	
-	
 	
 	public Veterinario() {}
 
@@ -76,6 +78,20 @@ public class Veterinario {
 		this.email = veterinario.getEmail();
 		this.num_celular = veterinario.getNum_celular();
 		this.especialidade = veterinario.getEspecialidade();
+	}
+	
+	@OneToMany(
+		    mappedBy = "veterinario",
+		    cascade = CascadeType.ALL,
+		    orphanRemoval = true)
+	private List<Consulta> consultas = new ArrayList<>();
+	
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
 	}
 
 	public Long getId_veterinario() {
