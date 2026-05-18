@@ -9,6 +9,6 @@ import br.com.fiap.clyvo_java.model.pet.Animal;
 
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
 	
-    @Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_ANIMAL WHERE UPPER(nm_animal) LIKE UPPER(CONCAT('%', :substring, '%')) ORDER BY nm_animal")
+    @Query(nativeQuery = true, value = "SELECT * FROM T_CLYVO_ANIMAL WHERE UPPER(nm_animal) LIKE UPPER('%' || :substring || '%') ORDER BY nm_animal")
     List<Animal> retornarAnimalPorNome(String substring);
 }
