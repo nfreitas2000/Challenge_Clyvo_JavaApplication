@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,29 +44,29 @@ public class VacinaAnimalController {
             summary = "Retornar todas as relação de vacina e animal",
             tags = "Retorno de Informações de Vacina e Animal")
     @GetMapping("/todos")
-    public List<VacinaAnimal> listarTodos() {
-        return vacinaAnimalCachingService.findAll();
+    public ResponseEntity<List<VacinaAnimal>> listarTodos() {
+        return ResponseEntity.ok(vacinaAnimalCachingService.findAll());
     }
 
     @Operation(description = "Este endpoint tem como objetivo retornar relações de vacinas e animais pelo ID, utilizando caching",
             summary = "Retornar relação vacina e animal por ID",
             tags = "Retorno de Informações de Vacina e Animal")
     @GetMapping("/{id}")
-    public Optional<VacinaAnimal> buscarPorId(@PathVariable Long id) {
-        return vacinaAnimalCachingService.findById(id);
+    public ResponseEntity<Optional<VacinaAnimal>> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(vacinaAnimalCachingService.findById(id));
     }
 
     @Operation(description = "Realiza a busca da relação de vacinas e animais paginadas",
     summary = "Retornar relação vacina e animal paginadas",
     tags = "Retorno de Informações por Paginação")
     @GetMapping("/paginado")
-    public Page<VacinaAnimalDTO> listarPaginado(
+    public ResponseEntity<Page<VacinaAnimalDTO>> listarPaginado(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         PageRequest pr = PageRequest.of(page, size);
 
-        return vacinaAnimalPageService.paginar(pr);
+        return ResponseEntity.ok(vacinaAnimalPageService.paginar(pr));
     }
     
     /*POST, PUT, DELETE*/
@@ -74,19 +75,19 @@ public class VacinaAnimalController {
             summary = "Adicionar relação vacina e animal",
             tags = "Vacina e Animal CRUD")
     @PostMapping("/inserir")
-    public VacinaAnimal inserir(@RequestBody @Valid VacinaAnimal vacinaAnimal) {
+    public ResponseEntity<VacinaAnimal> inserir(@RequestBody @Valid VacinaAnimal vacinaAnimal) {
 
         vacinaAnimalRepository.save(vacinaAnimal);
         vacinaAnimalCachingService.removerCache();
 
-        return vacinaAnimal;
+        return ResponseEntity.status(HttpStatus.CREATED).body(vacinaAnimal);
     }
 
     @Operation(description = "Este endpoint tem como objetivo deletar relações de vacinas e animais",
             summary = "Deletar relação vacina e animal",
             tags = "Vacina e Animal CRUD")
     @DeleteMapping("/{id}")
-    public VacinaAnimal remover(@PathVariable Long id) {
+    public ResponseEntity<VacinaAnimal> remover(@PathVariable Long id) {
 
         Optional<VacinaAnimal> op = vacinaAnimalRepository.findById(id);
 
@@ -95,17 +96,17 @@ public class VacinaAnimalController {
             vacinaAnimalRepository.delete(op.get());
             vacinaAnimalCachingService.removerCache();
 
-            return op.get();
+            return ResponseEntity.noContent().build();
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound().build();
     }
 
     @Operation(description = "Este endpoint tem como objetivo atualizar relações de vacinas e animais",
             summary = "Atualizar relação vacina e animal",
             tags = "Vacina e Animal CRUD")
     @PutMapping("/{id}")
-    public VacinaAnimal atualizar(
+    public ResponseEntity<VacinaAnimal> atualizar(
             @PathVariable Long id,
             @RequestBody @Valid VacinaAnimal vacinaAnimal) {
 
@@ -121,7 +122,7 @@ public class VacinaAnimalController {
 
             vacinaAnimalCachingService.removerCache();
 
-            return vacinaAnimalBanco;
+            return ResponseEntity.ok(vacinaAnimalBanco);
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);

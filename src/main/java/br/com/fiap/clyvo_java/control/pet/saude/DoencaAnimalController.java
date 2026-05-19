@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.pet.saude.DoencaAnimalDTO;
 import br.com.fiap.clyvo_java.model.pet.saude.DoencaAnimal;
@@ -45,8 +45,8 @@ public class DoencaAnimalController {
         tags = "Retorno de Informações de Doenças e Animais"
     )
     @GetMapping("/todos")
-    public List<DoencaAnimal> listarTodos() {
-        return doencaAnimalCachingService.findAll();
+    public ResponseEntity<List<DoencaAnimal>> listarTodos() {
+        return ResponseEntity.ok(doencaAnimalCachingService.findAll());
     }
 
     @Operation(
@@ -55,8 +55,8 @@ public class DoencaAnimalController {
         tags = "Retorno de Informações de Doenças e Animais"
     )
     @GetMapping("/{id}")
-    public Optional<DoencaAnimal> buscarPorId(@PathVariable Long id) {
-        return doencaAnimalCachingService.findById(id);
+    public ResponseEntity<Optional<DoencaAnimal>> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(doencaAnimalCachingService.findById(id));
     }
 
 
@@ -66,9 +66,9 @@ public class DoencaAnimalController {
         tags = "Retorno de Informações por Paginação"
     )
     @GetMapping("/paginado")
-    public Page<DoencaAnimalDTO> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<DoencaAnimalDTO>> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         PageRequest pr = PageRequest.of(page, size);
-        return doencaAnimalPageService.paginar(pr);
+        return ResponseEntity.ok(doencaAnimalPageService.paginar(pr));
     }
 
     /* POST, PUT E DELETE */
@@ -79,10 +79,10 @@ public class DoencaAnimalController {
         tags = "Doenca e Animal CRUD"
     )
     @PostMapping("/inserir")
-    public DoencaAnimal inserirDoencaAnimal(@RequestBody @Valid DoencaAnimal doencaAnimal) {
+    public ResponseEntity<DoencaAnimal> inserirDoencaAnimal(@RequestBody @Valid DoencaAnimal doencaAnimal) {
         doencaAnimalRepository.save(doencaAnimal);
         doencaAnimalCachingService.removerCache();
-        return doencaAnimal;
+        return ResponseEntity.status(HttpStatus.CREATED).body(doencaAnimal);
     }
 
     @Operation(
@@ -91,7 +91,7 @@ public class DoencaAnimalController {
         tags = "Doenca e Animal CRUD"
     )
     @DeleteMapping("/{id}")
-    public DoencaAnimal removerDoencaAnimal(@PathVariable Long id) {
+    public ResponseEntity<DoencaAnimal> removerDoencaAnimal(@PathVariable Long id) {
     	
         Optional<DoencaAnimal> op =doencaAnimalRepository.findById(id);
 
@@ -99,9 +99,9 @@ public class DoencaAnimalController {
 
             doencaAnimalRepository.delete(op.get());
             doencaAnimalCachingService.removerCache();
-            return op.get();
+            return ResponseEntity.noContent().build();
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        	return ResponseEntity.notFound().build();
         }
     }
 
@@ -111,7 +111,7 @@ public class DoencaAnimalController {
         tags = "Doenca e Animal CRUD"
     )
     @PutMapping("/{id}")
-    public DoencaAnimal atualizarDoencaAnimal(@PathVariable Long id, @RequestBody @Valid DoencaAnimal doencaAnimal) {
+    public ResponseEntity<DoencaAnimal> atualizarDoencaAnimal(@PathVariable Long id, @RequestBody @Valid DoencaAnimal doencaAnimal) {
 
         Optional<DoencaAnimal> op =
                 doencaAnimalCachingService.findById(id);
@@ -121,9 +121,9 @@ public class DoencaAnimalController {
             doencaAnimalBanco.transferirDoencaAnimal(doencaAnimal);
             doencaAnimalRepository.save(doencaAnimalBanco);
             doencaAnimalCachingService.removerCache();
-            return doencaAnimalBanco;
+            return ResponseEntity.ok(doencaAnimalBanco);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        	return ResponseEntity.notFound().build();
         }
     }
 }

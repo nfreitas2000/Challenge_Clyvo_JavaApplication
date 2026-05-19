@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.pet.consultas.ConsultaDTO;
 import br.com.fiap.clyvo_java.model.pet.consultas.Consulta;
@@ -43,16 +43,16 @@ public class ConsultaController {
         summary = "Retornar todas as consultas",
         tags = "Retorno de Informações de Consultas")
     @GetMapping("/todos")
-    public List<Consulta> listarTodos() {
-        return consultaCachingService.findAll();
+    public ResponseEntity<List<Consulta>> listarTodos() {
+        return ResponseEntity.ok(consultaCachingService.findAll());
     }
 
     @Operation(description = "Realiza a busca de consultas por ID, utilizando caching",
         summary = "Retornar consulta por ID",
         tags = "Retorno de Informações de Consultas")
     @GetMapping("/{id}")
-    public Optional<Consulta> buscarPorId(@PathVariable Long id) {
-        return consultaCachingService.findById(id);
+    public ResponseEntity<Optional<Consulta>> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(consultaCachingService.findById(id));
     }
 
     @Operation(
@@ -61,13 +61,13 @@ public class ConsultaController {
         tags = "Retorno de Informações por Paginação"
     )
     @GetMapping("/paginado")
-    public Page<ConsultaDTO> listarPaginado(
+    public ResponseEntity<Page<ConsultaDTO>> listarPaginado(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         PageRequest pr = PageRequest.of(page, size);
 
-        return consultaPageService.paginar(pr);
+        return ResponseEntity.ok(consultaPageService.paginar(pr));
     }
 
     /* POST, PUT E DELETE */
@@ -78,12 +78,12 @@ public class ConsultaController {
         tags = "Consulta CRUD"
     )
     @PostMapping("/inserir")
-    public Consulta inserirConsulta(@RequestBody @Valid Consulta consulta) {
+    public ResponseEntity<Consulta> inserirConsulta(@RequestBody @Valid Consulta consulta) {
 
         consultaRepository.save(consulta);
         consultaCachingService.removerCache();
 
-        return consulta;
+        return ResponseEntity.status(HttpStatus.CREATED).body(consulta);
     }
 
     @Operation(
@@ -92,7 +92,7 @@ public class ConsultaController {
         tags = "Consulta CRUD"
     )
     @DeleteMapping("/{id}")
-    public Consulta removerConsulta(@PathVariable Long id) {
+    public ResponseEntity<Consulta> removerConsulta(@PathVariable Long id) {
 
         Optional<Consulta> op = consultaRepository.findById(id);
 
@@ -101,10 +101,10 @@ public class ConsultaController {
             consultaRepository.delete(op.get());
             consultaCachingService.removerCache();
 
-            return op.get();
+            return ResponseEntity.noContent().build();
 
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        	return ResponseEntity.notFound().build();
         }
     }
 
@@ -114,7 +114,7 @@ public class ConsultaController {
         tags = "Consulta CRUD"
     )
     @PutMapping("/{id}")
-    public Consulta atualizarConsulta(
+    public ResponseEntity<Consulta> atualizarConsulta(
             @PathVariable Long id,
             @RequestBody @Valid Consulta consulta) {
 
@@ -130,10 +130,10 @@ public class ConsultaController {
 
             consultaCachingService.removerCache();
 
-            return consultaBanco;
+            return ResponseEntity.ok(consultaBanco);
 
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        	return ResponseEntity.notFound().build();
         }
     }
 }

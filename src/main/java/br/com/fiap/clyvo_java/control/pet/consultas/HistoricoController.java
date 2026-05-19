@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.pet.consultas.HistoricoDTO;
 import br.com.fiap.clyvo_java.model.pet.consultas.Historico;
@@ -45,9 +45,9 @@ public class HistoricoController {
         tags = "Retorno de Informações de Históricos"
     )
     @GetMapping("/todos")
-    public List<Historico> listarTodos() {
+    public ResponseEntity<List<Historico>> listarTodos() {
 
-        return historicoCachingService.findAll();
+        return ResponseEntity.ok(historicoCachingService.findAll());
 
     }
 
@@ -57,9 +57,9 @@ public class HistoricoController {
         tags = "Retorno de Informações de Históricos"
     )
     @GetMapping("/{id}")
-    public Optional<Historico> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Optional<Historico>> buscarPorId(@PathVariable Long id) {
 
-        return historicoCachingService.findById(id);
+        return ResponseEntity.ok(historicoCachingService.findById(id));
 
     }
 
@@ -69,13 +69,13 @@ public class HistoricoController {
         tags = "Retorno de Informações por Paginação"
     )
     @GetMapping("/paginado")
-    public Page<HistoricoDTO> listarPaginado(
+    public ResponseEntity<Page<HistoricoDTO>> listarPaginado(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         PageRequest pr = PageRequest.of(page, size);
 
-        return historicoPageService.paginar(pr);
+        return ResponseEntity.ok(historicoPageService.paginar(pr));
     }
 
     /* POST, PUT E DELETE */
@@ -86,14 +86,14 @@ public class HistoricoController {
         tags = "Historico CRUD"
     )
     @PostMapping("/inserir")
-    public Historico inserirHistorico(
+    public ResponseEntity<Historico> inserirHistorico(
             @RequestBody @Valid Historico historico) {
 
         historicoRepository.save(historico);
 
         historicoCachingService.removerCache();
 
-        return historico;
+        return ResponseEntity.status(HttpStatus.CREATED).body(historico);
     }
 
     @Operation(
@@ -102,22 +102,16 @@ public class HistoricoController {
         tags = "Historico CRUD"
     )
     @DeleteMapping("/{id}")
-    public Historico removerHistorico(@PathVariable Long id) {
+    public ResponseEntity<Historico> removerHistorico(@PathVariable Long id) {
 
         Optional<Historico> op = historicoRepository.findById(id);
 
         if (op.isPresent()) {
-
             historicoRepository.delete(op.get());
-
             historicoCachingService.removerCache();
-
-            return op.get();
-
+            return ResponseEntity.noContent().build();
         } else {
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+        	return ResponseEntity.notFound().build();
         }
     }
 
@@ -127,7 +121,7 @@ public class HistoricoController {
         tags = "Historico CRUD"
     )
     @PutMapping("/{id}")
-    public Historico atualizarHistorico(
+    public ResponseEntity<Historico> atualizarHistorico(
             @PathVariable Long id,
             @RequestBody @Valid Historico historico) {
 
@@ -144,11 +138,11 @@ public class HistoricoController {
 
             historicoCachingService.removerCache();
 
-            return historicoBanco;
+            return ResponseEntity.ok(historicoBanco);
 
         } else {
 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        	return ResponseEntity.notFound().build();
 
         }
     }

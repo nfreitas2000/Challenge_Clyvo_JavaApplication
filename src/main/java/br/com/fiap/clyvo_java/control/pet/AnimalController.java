@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.pet.AnimalDTO;
 import br.com.fiap.clyvo_java.model.pet.Animal;
@@ -44,33 +44,33 @@ public class AnimalController {
 			summary = "Retornar todos animais",
 			tags = "Retorno de Informações de Animais")
     @GetMapping("/todos")
-    public List<Animal> listarTodos() {
-        return animalCachingService.findAll();
+    public ResponseEntity<List<Animal>> listarTodos() {
+        return ResponseEntity.ok(animalCachingService.findAll());
     }
 
     @Operation(description = "Realiza a busca de animais por ID, utilizando caching",
 			summary = "Retornar dados de animais por ID",
 			tags = "Retorno de Informações de Animais")
     @GetMapping("/{id}")
-    public Optional<Animal> buscarPorId(@PathVariable Long id) {
-        return animalCachingService.findById(id);
+    public ResponseEntity<Optional<Animal>> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(animalCachingService.findById(id));
     }
 
     @Operation(description = "Realiza a busca de animais por nome, utilizando caching",
 			summary = "Retornar animais por nome",
 			tags = "Retorno de Informações de Animais")
     @GetMapping("/buscarNome")
-    public List<Animal> buscarPorNome(@RequestParam String nome) {
-    	return animalCachingService.retornarAnimaisPorNome(nome);
+    public ResponseEntity<List<Animal>> buscarPorNome(@RequestParam String nome) {
+    	return ResponseEntity.ok(animalCachingService.retornarAnimaisPorNome(nome));
     }
 
     @Operation(description = "Realiza a busca de animais por nome, utilizando caching",
 			summary = "Retornar animais páginados",
 			tags = "Retorno de Informações por Paginação")
     @GetMapping("/paginado")
-    public Page<AnimalDTO> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<AnimalDTO>> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     	PageRequest pr = PageRequest.of(page,size);
-        return animalPageService.paginar(pr);
+        return ResponseEntity.ok(animalPageService.paginar(pr));
     }
     
     /*POST, PUT AND DELETE*/
@@ -79,25 +79,25 @@ public class AnimalController {
 			summary = "Inserir novo animal",
 			tags = "Animal CRUD")
 	@PostMapping(value = "/inserir")
-	public Animal inserirAnimal(@RequestBody @Valid Animal animal) {
+	public ResponseEntity<Animal> inserirAnimal(@RequestBody @Valid Animal animal) {
 		animalRepository.save(animal);
 		animalCachingService.removerCache();
-		return animal;
+		return ResponseEntity.status(HttpStatus.CREATED).body(animal);
 	}
 
 	@Operation(description = "Este endpoint realiza a remoção de animais do sistema",
 			summary = "Remover animais",
 			tags = "Animal CRUD")
 	@DeleteMapping(value = "/{id}")
-	public Animal removerAnimal(@PathVariable Long id) {
+	public ResponseEntity<Animal> removerAnimal(@PathVariable Long id) {
 		Optional<Animal> op = animalRepository.findById(id);
 
 		if (op.isPresent()) {
 			animalRepository.delete(op.get());
 			animalCachingService.removerCache();
-			return op.get();
+			return ResponseEntity.noContent().build();
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -105,7 +105,7 @@ public class AnimalController {
 			summary = "Atualizar animais",
 			tags = "Animal CRUD")
 	@PutMapping(value = "/{id}")
-	public Animal atualizarAnimal(@PathVariable Long id, @RequestBody @Valid Animal animal) {
+	public ResponseEntity<Animal> atualizarAnimal(@PathVariable Long id, @RequestBody @Valid Animal animal) {
 		Optional<Animal> op = animalCachingService.findById(id);
 
 		if (op.isPresent()) {
@@ -113,9 +113,9 @@ public class AnimalController {
 			animalBanco.transferirAnimal(animal);
 			animalRepository.save(animalBanco);
 			animalCachingService.removerCache();
-			return animalBanco;
+			return ResponseEntity.ok(animalBanco);
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 
 	}

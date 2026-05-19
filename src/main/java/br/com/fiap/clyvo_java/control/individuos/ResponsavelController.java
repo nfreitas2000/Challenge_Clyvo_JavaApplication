@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.clyvo_java.dto.individuos.ResponsavelDTO;
 import br.com.fiap.clyvo_java.model.individuos.Responsavel;
@@ -44,33 +44,33 @@ public class ResponsavelController {
 			summary = "Retornar todos os responsáveis",
 			tags = "Retorno de Informações de Responsáveis")
     @GetMapping("/todos")
-    public List<Responsavel> listarTodos() {
-        return responsavelCachingService.findAll();
+    public ResponseEntity<List<Responsavel>> listarTodos() {
+        return ResponseEntity.ok(responsavelCachingService.findAll());
     }
 
     @Operation(description = "Realiza a busca de responsáveis por ID, utilizando caching",
 			summary = "Retornar dados de responsáveis por ID",
 			tags = "Retorno de Informações de Responsáveis")
     @GetMapping("/{id}")
-    public Optional<Responsavel> buscarPorId(@PathVariable Long id) {
-        return responsavelCachingService.findById(id);
+    public ResponseEntity<Optional<Responsavel>> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(responsavelCachingService.findById(id));
     }
 
     @Operation(description = "Realiza a busca de responsáveis por nome, utilizando caching",
 			summary = "Retornar responsáveis por nome",
 			tags = "Retorno de Informações de Responsáveis")
     @GetMapping("/buscarNome")
-    public List<Responsavel> buscarPorNome(@RequestParam String nome) {
-    	return responsavelCachingService.retornarResponsaveisPorNome(nome);
+    public ResponseEntity<List<Responsavel>> buscarPorNome(@RequestParam String nome) {
+    	return ResponseEntity.ok(responsavelCachingService.retornarResponsaveisPorNome(nome));
     }
 
     @Operation(description = "Realiza a busca de responsáveis por nome, utilizando caching",
 			summary = "Retornar responsáveis páginados",
 			tags = "Retorno de Informações por Paginação")
     @GetMapping("/paginado")
-    public Page<ResponsavelDTO> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<ResponsavelDTO>> listarPaginado(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     	PageRequest pr = PageRequest.of(page,size);
-        return responsavelPageService.paginar(pr);
+        return ResponseEntity.ok(responsavelPageService.paginar(pr));
     }
     
     /*POST, PUT AND DELETE*/
@@ -79,25 +79,25 @@ public class ResponsavelController {
 			summary = "Inserir novo responsável",
 			tags = "Responsavel CRUD")
 	@PostMapping(value = "/inserir")
-	public Responsavel inserirResponsavel(@RequestBody @Valid Responsavel responsavel) {
+	public ResponseEntity<Responsavel> inserirResponsavel(@RequestBody @Valid Responsavel responsavel) {
 		responsavelRepository.save(responsavel);
 		responsavelCachingService.removerCache();
-		return responsavel;
+		return ResponseEntity.status(HttpStatus.CREATED).body(responsavel);
 	}
 
 	@Operation(description = "Este endpoint realiza a remoção de responsáveis do sistema",
 			summary = "Remover responsáveis",
 			tags = "Responsavel CRUD")
 	@DeleteMapping(value = "/{id}")
-	public Responsavel removerResponsavel(@PathVariable Long id) {
+	public ResponseEntity<Responsavel> removerResponsavel(@PathVariable Long id) {
 		Optional<Responsavel> op = responsavelRepository.findById(id);
 
 		if (op.isPresent()) {
 			responsavelRepository.delete(op.get());
 			responsavelCachingService.removerCache();
-			return op.get();
+			return ResponseEntity.noContent().build();
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -105,7 +105,7 @@ public class ResponsavelController {
 			summary = "Atualizar responsáveis",
 			tags = "Responsavel CRUD")
 	@PutMapping(value = "/{id}")
-	public Responsavel atualizarResponsavel(@PathVariable Long id, @RequestBody @Valid Responsavel responsavel) {
+	public ResponseEntity<Responsavel> atualizarResponsavel(@PathVariable Long id, @RequestBody @Valid Responsavel responsavel) {
 		Optional<Responsavel> op = responsavelCachingService.findById(id);
 
 		if (op.isPresent()) {
@@ -113,9 +113,9 @@ public class ResponsavelController {
 			respBanco.transferirResponsavel(responsavel);
 			responsavelRepository.save(respBanco);
 			responsavelCachingService.removerCache();
-			return respBanco;
+			return ResponseEntity.ok( respBanco);
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 
 	}
