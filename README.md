@@ -175,178 +175,172 @@ Todos os endpoints protegidos estarão liberados para uso.
 
 ---
 
-# Endpoints
+## Endpoints da API
 
-## Veterinários
+### Veterinários
 
-### GET
+#### GET
+- `localhost:8080/veterinarios/todos` → Retorna todos os veterinários
+- `localhost:8080/veterinarios/{id}` → Retorna um veterinário por ID
+- `localhost:8080/veterinarios/buscarNome` → Retorna veterinários com base em uma substring do nome
+- `localhost:8080/veterinarios/paginado` → Retorna veterinários utilizando paginação e DTO
 
-```http
-GET /veterinarios/todos
-```
+#### POST
+- `localhost:8080/veterinarios/inserir` → Cria um novo veterinário
 
-Retorna todos os veterinários.
+#### PUT
+- `localhost:8080/veterinarios/{id}` → Atualiza um veterinário por ID
 
-```http
-GET /veterinarios/{id}
-```
-
-Retorna veterinário por ID.
-
-```http
-GET /veterinarios/buscarNome?substring=
-```
-
-Busca veterinários pelo nome.
-
-```http
-GET /veterinarios/paginado
-```
-
-Retorna veterinários utilizando DTO e paginação.
-
-### POST
-
-```http
-POST /veterinarios/inserir
-```
-
-Body:
-
-```json
-{
-  "nm_veterinario":"Gabriel",
-  "cpf":"11111111111",
-  "dt_nascimento":"2000-01-01",
-  "email":"gabriel@gmail.com",
-  "num_celular":"+55 (11) 11111-1111",
-  "especialidade":"Cardiologia"
-}
-```
-
-### PUT
-
-```http
-PUT /veterinarios/{id}
-```
-
-Atualiza veterinário.
-
-### DELETE
-
-```http
-DELETE /veterinarios/{id}
-```
-
-Remove veterinário.
+#### DELETE
+- `localhost:8080/veterinarios/{id}` → Remove um veterinário por ID
 
 ---
 
-## Responsáveis
+### Vacinas
 
-```http
-GET /responsaveis/todos
-GET /responsaveis/{id}
-GET /responsaveis/buscarNome
-GET /responsaveis/paginado
+#### GET
+- `localhost:8080/vacinas/todos` → Retorna todas as vacinas
+- `localhost:8080/vacinas/{id}` → Retorna uma vacina por ID
+- `localhost:8080/vacinas/buscarNome` → Retorna vacinas com base em uma substring do nome
+- `localhost:8080/vacinas/paginado` → Retorna vacinas utilizando paginação e DTO
 
-POST /responsaveis/inserir
-PUT /responsaveis/{id}
-DELETE /responsaveis/{id}
-```
+#### POST
+- `localhost:8080/vacinas/inserir` → Cria uma nova vacina
 
----
+#### PUT
+- `localhost:8080/vacinas/{id}` → Atualiza uma vacina por ID
 
-## Animais
-
-```http
-GET /animais/todos
-GET /animais/{id}
-GET /animais/buscarNome
-GET /animais/paginado
-
-POST /animais/inserir
-PUT /animais/{id}
-DELETE /animais/{id}
-```
+#### DELETE
+- `localhost:8080/vacinas/{id}` → Remove uma vacina por ID
 
 ---
 
-## Vacinas
+### Vacina x Animal
 
-```http
-GET /vacinas/todos
-GET /vacinas/{id}
+#### GET
+- `localhost:8080/vacinasAnimal/todos` → Retorna todos os registros
+- `localhost:8080/vacinasAnimal/{id}` → Retorna um registro por ID
+- `localhost:8080/vacinasAnimal/paginado` → Retorna registros paginados
 
-POST /vacinas/inserir
-PUT /vacinas/{id}
-DELETE /vacinas/{id}
-```
+#### POST
+- `localhost:8080/vacinasAnimal/inserir` → Cria um novo registro
 
----
+#### PUT
+- `localhost:8080/vacinasAnimal/{id}` → Atualiza um registro por ID
 
-## VacinaAnimal
-
-```http
-GET /vacinaAnimal/todos
-GET /vacinaAnimal/{id}
-
-POST /vacinaAnimal/inserir
-PUT /vacinaAnimal/{id}
-DELETE /vacinaAnimal/{id}
-```
+#### DELETE
+- `localhost:8080/vacinasAnimal/{id}` → Remove um registro por ID
 
 ---
 
-## Doenças
+### Responsáveis
 
-```http
-GET /doencas/todos
-GET /doencas/{id}
+#### GET
+- `localhost:8080/responsaveis/todos` → Retorna todos os responsáveis
+- `localhost:8080/responsaveis/{id}` → Retorna um responsável por ID
+- `localhost:8080/responsaveis/buscarNome` → Retorna responsáveis por substring
+- `localhost:8080/responsaveis/paginado` → Retorna responsáveis paginados
 
-POST /doencas/inserir
-PUT /doencas/{id}
-DELETE /doencas/{id}
-```
+#### POST
+- `localhost:8080/responsaveis/inserir` → Cria um responsável
 
----
+#### PUT
+- `localhost:8080/responsaveis/{id}` → Atualiza um responsável
 
-## DoençaAnimal
-
-```http
-GET /doencaAnimal/todos
-GET /doencaAnimal/{id}
-
-POST /doencaAnimal/inserir
-PUT /doencaAnimal/{id}
-DELETE /doencaAnimal/{id}
-```
+#### DELETE
+- `localhost:8080/responsaveis/{id}` → Remove um responsável
 
 ---
 
-## Consultas
+### Histórico
 
-```http
-GET /consultas/todos
-GET /consultas/{id}
+#### GET
+- `localhost:8080/historicos/todos` → Retorna todos os históricos
+- `localhost:8080/historicos/{id}` → Retorna um histórico por ID
+- `localhost:8080/historicos/paginado` → Retorna históricos paginados
 
-POST /consultas/inserir
-PUT /consultas/{id}
-DELETE /consultas/{id}
-```
+#### POST
+- `localhost:8080/historicos/inserir` → Cria um histórico
+
+#### PUT
+- `localhost:8080/historicos/{id}` → Atualiza um histórico
+
+#### DELETE
+- `localhost:8080/historicos/{id}` → Remove um histórico
 
 ---
 
-## Histórico
+### Doença x Animal
 
-```http
-GET /historicos/todos
-GET /historicos/{id}
+#### GET
+- `localhost:8080/doencasAnimal/todos` → Retorna todos os registros
+- `localhost:8080/doencasAnimal/{id}` → Retorna um registro por ID
+- `localhost:8080/doencasAnimal/paginado` → Retorna registros paginados
 
-POST /historicos/inserir
-PUT /historicos/{id}
-DELETE /historicos/{id}
-```
+#### POST
+- `localhost:8080/doencasAnimal/inserir` → Cria um novo registro
+
+#### PUT
+- `localhost:8080/doencasAnimal/{id}` → Atualiza um registro
+
+#### DELETE
+- `localhost:8080/doencasAnimal/{id}` → Remove um registro
+
+---
+
+### Doenças
+
+#### GET
+- `localhost:8080/doencas/todos` → Retorna todas as doenças
+- `localhost:8080/doencas/{id}` → Retorna uma doença por ID
+- `localhost:8080/doencas/buscarNome` → Retorna doenças por substring
+- `localhost:8080/doencas/paginado` → Retorna doenças paginadas
+
+#### POST
+- `localhost:8080/doencas/inserir` → Cria uma nova doença
+
+#### PUT
+- `localhost:8080/doencas/{id}` → Atualiza uma doença
+
+#### DELETE
+- `localhost:8080/doencas/{id}` → Remove uma doença
+
+---
+
+### Consultas
+
+#### GET
+- `localhost:8080/consultas/todos` → Retorna todas as consultas
+- `localhost:8080/consultas/{id}` → Retorna uma consulta por ID
+- `localhost:8080/consultas/paginado` → Retorna consultas paginadas
+
+#### POST
+- `localhost:8080/consultas/inserir` → Cria uma consulta
+
+#### PUT
+- `localhost:8080/consultas/{id}` → Atualiza uma consulta
+
+#### DELETE
+- `localhost:8080/consultas/{id}` → Remove uma consulta
+
+---
+
+### Animais
+
+#### GET
+- `localhost:8080/animais/todos` → Retorna todos os animais
+- `localhost:8080/animais/{id}` → Retorna um animal por ID
+- `localhost:8080/animais/buscarNome` → Retorna animais por substring
+- `localhost:8080/animais/paginado` → Retorna animais paginados
+
+#### POST
+- `localhost:8080/animais/inserir` → Cria um novo animal
+
+#### PUT
+- `localhost:8080/animais/{id}` → Atualiza um animal
+
+#### DELETE
+- `localhost:8080/animais/{id}` → Remove um animal por ID
 
 ---
 
