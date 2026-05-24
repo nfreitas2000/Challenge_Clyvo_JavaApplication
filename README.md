@@ -24,7 +24,6 @@ O projeto tem como objetivo centralizar o gerenciamento de dados relacionados ao
 
 ## Tecnologias Utilizadas
 
-- Java 21
 - Spring Boot
 - Spring Security
 - Spring Data JPA
@@ -33,8 +32,6 @@ O projeto tem como objetivo centralizar o gerenciamento de dados relacionados ao
 - Swagger/OpenAPI
 - JWT Authentication
 - Maven
-- Docker
-- Azure VM
 
 ---
 
@@ -67,7 +64,7 @@ Responsável pela validação de dados enviados e tratamento centralizado de err
 ### Clonar repositório
 
 ```bash
-git clone <url-repositorio>
+git clone https://github.com/nfreitas2000/Challenge_Clyvo_JavaApplication.git
 
 cd clyvo_java
 ```
@@ -119,13 +116,7 @@ values
 insert into T_CLYVO_SWAGGER_USER
 (fk_pessoa,username,senha,permissao,data_criacao)
 values
-(
-1,
-'RM1',
-'$2a$10$0BhZzH8hG2FEW6qhs9UpV.XlaRPf.ODWDDevV67y3TzXeDzUUaRTK',
-'USER',
-DATE '2026-05-05'
-);
+(1, 'RM1', '$2a$10$0BhZzH8hG2FEW6qhs9UpV.XlaRPf.ODWDDevV67y3TzXeDzUUaRTK', 'USER', DATE '2026-05-05');
 ```
 
 Senha correspondente:
